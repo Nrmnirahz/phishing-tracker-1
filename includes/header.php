@@ -18,7 +18,8 @@
  <!-- Additional CSS Files -->
     <link rel="stylesheet" href="/assets/css/templatemo-host-cloud.css">
     <link rel="stylesheet" href="/assets/css/owl.css">
-
+    <!-- JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <body>
