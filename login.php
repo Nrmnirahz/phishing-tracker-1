@@ -5,7 +5,7 @@
 
 
 <?php
-
+session_start();
 //check if email and password field post data exits
 if (isset($_POST['email']) && isset($_POST['password'])) {
 	if (!empty($_POST['email']) && !empty($_POST['password'])) {
@@ -27,13 +27,15 @@ if (mysqli_num_rows($result) == 1) {
 		$_SESSION['is_admin'] = True;
 	} else {
 		$_SESSION['is_admin'] = False;
-}
+	}
 
-	$_SESSION['id'] = $row['user_id'];
+
+	$_SESSION['user_id'] = $row['user_id'];
 	$_SESSION['username'] = $row['username'];
 	$_SESSION['email'] = $row['email'];
-	alert ("Welcome " . $_SESSION['username']);
-	header("Location: /index.php");
+	
+	alert("Welcome " . $_SESSION['username']);
+	header("Location: /search.php");
 	exit();
 }	else {
 	alert("email or password is incorrect");

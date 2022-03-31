@@ -2,25 +2,52 @@
 include 'includes/config.php';
 include 'includes/header.php';
 
+session_start();
 
-header('Access-Control-Allow-Origin: *');
+if($_SESSION['user_id'])
+{
+  $namapengguna = $_SESSION['username'];
+}else
+{
+  header("Location: index.php");
+  exit();
+}
+
+// ambik data dari table send ke database
+if (isset($_POST['submit'])) {
+    if (empty($_POST['s_param'])) {
+      $errors = "You must fill in";
+    }else{
+      $iduser = $_SESSION['user_id'];
+      $txtbox = $_POST['s_param'];
+      $email = $_SESSION['email'];
+      // $datetime = date("Y-m-d h:i:sa");
+
+      $sql = "INSERT INTO user_history (user_id, history_query, user_email) VALUES ('$iduser', '$txtbox', '$email')";
+      mysqli_query($conn, $sql);
+      header('Access-Control-Allow-Origin: *');
+    }
+ } 
+
 ?>
+
+</div>
     <div class="banner">
 
-<!--       <div class="container"> -->
+      
+
         <div class="row">
           <div class="col-md-8 offset-md-2">
             <div class="header-text caption">
               <h2>Search your domain</h2>
-              <?php 
-                 echo "<h3>Hi, guest</h3>";
-               ?>
+              <h3>Hi, <?php echo "$namapengguna"?></h3>
               <div id="search-section" class="text-white">
 
-                <input class="searchText" style="background-color: black; opacity: 0.6;"  type="text" name="s_param" id="s_param" placeholder="Enter your domain here..." />
-                <input class="main-button" style="background-color: black; opacity: 0.6;" type="submit" id="sendData" value="Search Now">
+                    <input class="searchText" style="background-color: black; opacity: 0.6;"  type="text" name="s_param" id="s_param" placeholder="Enter your domain here..."/>
+                    <input class="main-button" style="background-color: black; opacity: 0.6;" type="submit" name="submit" id="sendData" value="Search Now">                    
 
-                <div class="container-fluid">
+                  <div class="container-fluid">
+
 
                     <!-- table -->
                     <table class="table" style="font-size: 16px;">
@@ -50,7 +77,6 @@ header('Access-Control-Allow-Origin: *');
 <!--       </div> -->
     </div>
 
-
 <script type="text/javascript">
   $('#sendData').click(function(){
     let searchParam = $('#s_param').val()
@@ -63,12 +89,21 @@ header('Access-Control-Allow-Origin: *');
         'Content-Type': 'application/json'
       },
 
+      //loading
+      // $('#loading_spinner').show();
+    //   $('#loadingDiv')
+    // .hide()  // Hide it initially
+    // .ajaxStart(function(data) {
+    //     $(this).show();
+    // })
+    // .ajaxStop(function(data) {
+    //     $(this).hide();
+    // })
+
       success: function(data) {
         console.log(data);
 
- 
-
-for(var i = 0; i < 5; i++) {
+for(var i = 0; i < 10; i++) {
   var html = '<tr>';
   // html += '<tr><th scope="row">'+ i+1 +'</th>';
   
@@ -113,7 +148,7 @@ for(var i = 0; i < 5; i++) {
   }else {
     html += '<th scope="row">Empty</th>';
   }
-  
+
   $("#results").prepend(html)
   // results("pagination.php");
 
@@ -122,6 +157,9 @@ for(var i = 0; i < 5; i++) {
 });
 });
 </script>
+
+<?php include 'result.php'; ?>
 <?php include 'includes/footer.php'; ?>
+
 </body>
 </html>

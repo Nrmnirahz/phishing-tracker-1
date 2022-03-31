@@ -5,6 +5,6 @@ session_destroy();
 session_start();
 
 $_SESSION['message'] = "You've logged out.";
-header("Location: /login.php");
+header("Location: /search.php");
 exit();
 ?>

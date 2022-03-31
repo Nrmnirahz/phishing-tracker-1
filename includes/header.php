@@ -4,7 +4,7 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>phishing tracker</title>
+	<title>PHISHING TRACKER</title>
 	<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/assets/css/owl.css">
     <!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+	<script type="module" src="node_modules/spin.js/spin.js"></script>
 </head>
 <body>
 

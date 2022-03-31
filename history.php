@@ -1,49 +1,78 @@
-<?php include 'includes/config.php'; ?>
-<?php include 'includes/header.php'; ?>
+<?php
+
+include 'includes/config.php';
+include 'includes/header.php';
+
+?>
+
+<div class="container">
+<table>
+  <tr>
+    <th>User's Email</th>
+    <th>Search History</th>
+    <th>Timestamp</th>
+  </tr>
+
+<?php
 
 
-<section class="vh-100" style="background-color: #470ab1;">
-  <div class="container">
-    <div class="row w-100">
-        <div class="col-lg-12 col-md-12 col-12">
-        	<h1><center><i style="color: white; font-size: 1.5em;"></i><i style="color: white"> History </h1></center>
-			<table class="table table-dark table-striped">
-			  <thead>
-			    <tr>
-			      <th scope="col">Num</th>
-			      <th scope="col">Email</th>
-			      <th scope="col">Domain</th>
-			      <th scope="col">Timestamp</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <th scope="row">1</th>
-			      <td>php@gmail.com</td>
-			      <td>netbytesec.com</td>
-			      <td>22:00</td>
-			    </tr>
-			    <tr>
-			      <th scope="row">2</th>
-			      <td>test@gmail.com</td>
-			      <td>unisza.com</td>
-			      <td>23:00</td>
-			    </tr>
-			    <tr>
-			      <th scope="row">3</th>
-			      <td>php@gmail.com</td>
-			      <td>facebook.com</td>
-			      <td>14:00</td>
-			    </tr>
-			  </tbody>
-			</table>
-		</div>
-	</div>
- </div>
-</section>
+// init if user logged in
+if($_SESSION['user_id']) {
+  $namapengguna = $_SESSION['username'];
+  $user_id = $_SESSION['user_id'];
+  $email = $_SESSION['email'];
 
+  // if admin, query all
+  if ($_SESSION['is_admin']) {
+    $sql = "SELECT history_query, history_time, user_email FROM user_history";    
+  } else {
+    $sql = "SELECT history_query, history_time FROM user_history where user_id = ".$user_id;
+  }
 
- <?php include 'includes/footer.php'; ?>
- 
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+      if ($_SESSION['is_admin']) {
+        echo "<tr>";
+        echo "<td>";
+        echo $row["user_email"];
+        echo "</td>";
+        echo "<td>";
+        echo $row["history_query"];
+        echo "</td>";
+        echo "<td>";
+        echo $row["history_time"];
+        echo "</td>";
+        echo "</tr>";
+      } else { 
+        
+        echo "<tr>";
+        echo "<td>";
+        echo $row["history_query"];
+        echo "</td>"; 
+        echo "<td>"; 
+        echo $row["history_time"];
+        echo "</td>"; 
+        echo "</tr>"; 
+        // echo "</table>";
+      }
+    }
+  } else {
+    echo "<tr>";
+    echo "<td>";
+    echo "0 results";
+    echo "</tr>";
+    echo "</td>";
+  }
+  $conn->close();
+} else {
+  echo "You must login";
+}
+?> 
+</div>
+</table>
+
 </body>
 </html>
